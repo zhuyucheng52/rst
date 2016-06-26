@@ -1,5 +1,9 @@
-package com.rst.echo.entity;
+package com.echo.rst.order;
 
+import com.echo.rst.entity.CommonEntity;
+import com.echo.rst.menu.Menu;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,6 +11,8 @@ import java.util.Date;
  * Created by echo on 16-6-11.
  * 订单
  */
+@Entity
+@Table(name = "tbl_order")
 public class Order extends CommonEntity implements Serializable {
     private static final long serialVersionUID = 4445022925774052611L;
 
@@ -25,6 +31,21 @@ public class Order extends CommonEntity implements Serializable {
     private Integer num;
     /** 备注 */
     private String comment;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "menu_id")
+    private Menu menu;
+
+    public Order() {
+    }
+
+    public Order(String comment, Date gTime, Integer state, Integer copies, Integer num) {
+        this.comment = comment;
+        this.gTime = gTime;
+        this.state = state;
+        this.copies = copies;
+        this.num = num;
+    }
 
     public Date getgTime() {
         return gTime;
@@ -75,5 +96,13 @@ public class Order extends CommonEntity implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 }

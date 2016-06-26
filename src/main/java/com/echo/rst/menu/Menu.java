@@ -1,11 +1,20 @@
-package com.rst.echo.entity;
+package com.echo.rst.menu;
 
+import com.echo.rst.entity.CommonEntity;
+import com.echo.rst.order.Order;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by echo on 16-6-11.
  * 菜单
  */
+@Entity
+@Table(name = "tbl_menu")
 public class Menu extends CommonEntity implements Serializable {
 
     private static final long serialVersionUID = -613794406409968601L;
@@ -16,6 +25,18 @@ public class Menu extends CommonEntity implements Serializable {
     private String description;
     /** 价格 */
     private Double price;
+
+    @OneToMany(mappedBy = "menu")
+    private Set<Order> orders;
+
+    public Menu() {
+    }
+
+    public Menu(String name, String description, Double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 
     public String getName() {
         return name;
@@ -48,5 +69,13 @@ public class Menu extends CommonEntity implements Serializable {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 '}';
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 }

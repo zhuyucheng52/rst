@@ -31,7 +31,7 @@ create table tbl_order(
 	comment varcahr(512) default null comment '备注',
 
 	primary key(id),
-	foreign key (menu_id) references tbl_menu(id)
+	foreign key(menu_id) references tbl_menu(id)
 ) comment='订单';
 
 create table tbl_oper_log(
@@ -43,5 +43,13 @@ create table tbl_oper_log(
 	reason varchar(512) default null comment '操作原因',
 
 	primary key(id),
-	foreign key (user_id) references tbl_user(id)
+	foreign key(user_id) references tbl_user(id)
 ) comment='操作日志';
+
+create table tbl_customer(
+	id int auto_increment not null,
+	first_name varchar(32),
+	last_name varchar(32),
+
+	primary key(id)
+);
