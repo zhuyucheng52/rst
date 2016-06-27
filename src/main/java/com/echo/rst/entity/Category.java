@@ -6,4 +6,7 @@ package com.echo.rst.entity;
 public class Category {
 	/** 用户操作 */
 	public static final Integer USER        = 1_000_000;
+
+	/** 菜单操作 */
+	public static final Integer MENU        = 2_000_000;
 }
