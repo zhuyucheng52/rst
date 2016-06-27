@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Implementation-Version: 0.1.0
+Implementation-Version: 1.0.0-SNAPSHOT
 Built-By: echo
-Implementation-Vendor-Id: org.springframework
+Implementation-Vendor-Id: com.echo.rst
 Created-By: IntelliJ IDEA
 Build-Jdk: 1.8.0_73
 Main-Class: ${start-class}

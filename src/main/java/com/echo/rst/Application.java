@@ -2,12 +2,16 @@ package com.echo.rst;
 
 import com.echo.rst.customer.Customer;
 import com.echo.rst.customer.CustomerRepository;
+import com.echo.rst.entity.Category;
 import com.echo.rst.menu.Menu;
 import com.echo.rst.menu.MenuRepository;
+import com.echo.rst.menu.MenuService;
 import com.echo.rst.operlog.OperLog;
 import com.echo.rst.operlog.OperLogRepository;
+import com.echo.rst.operlog.OperLogService;
 import com.echo.rst.order.Order;
 import com.echo.rst.order.OrderRepository;
+import com.echo.rst.order.OrderService;
 import com.echo.rst.user.User;
 import com.echo.rst.user.UserRepository;
 import com.echo.rst.user.UserService;
@@ -208,6 +212,36 @@ public class Application {
         };
     }
 
+//	@Bean
+    public CommandLineRunner menuServiceAddMenu(MenuService menuService) {
+        return (args) -> {
+            log.info("##menuService.addmenu test##");
+            log.info("--------------------------------------------");
+            Menu menu = new Menu("凉皮", "陕西凉皮", 7.00);
+            menuService.addMenu(menu);
+        };
+    }
+
+//    @Bean
+    public CommandLineRunner operLogServiceAddOperLog(OperLogService operLogService) {
+        return (args) -> {
+            log.info("##operLogService.addoperLog test##");
+            log.info("--------------------------------------------");
+            operLogService.success(Category.USER, "add user success");
+            operLogService.failure(Category.USER, "add user failure", "user is exists");
+        };
+    }
+
+//	@Bean
+    public CommandLineRunner orderServiceAddUser(OrderService orderService) {
+        return (args) -> {
+            log.info("##orderService.addorder test##");
+            log.info("--------------------------------------------");
+            Order order = new Order("order", new Date(), Order.STATE_FINISHED, 2, 1);
+            orderService.addOrder(order);
+        };
+    }
+
 //    @Bean
     public CommandLineRunner userServiceDeleteUser(UserService userService) {
         return (args) -> {
@@ -219,7 +253,29 @@ public class Application {
         };
     }
 
-	@Bean
+    @Bean
+    public CommandLineRunner menuServiceDeleteMenu(MenuService menuService) {
+        return (args) -> {
+            log.info("##menuService.deleteMenu test##");
+            log.info("--------------------------------------------");
+            Menu menu = new Menu("凉皮", "陕西凉皮", 7.00);
+            Menu u = menuService.addMenu(menu);
+            menuService.deleteMenu(u.getId());
+        };
+    }
+
+//	@Bean
+    public CommandLineRunner orderServiceDeleteOrder(OrderService orderService) {
+        return (args) -> {
+            log.info("##orderService.deleteOrder test##");
+            log.info("--------------------------------------------");
+            Order order = new Order("order", new Date(), Order.STATE_FINISHED, 2, 1);
+            Order u = orderService.addOrder(order);
+            orderService.deleteOrder(u.getId());
+        };
+    }
+
+//	@Bean
     public CommandLineRunner userServiceUpdateUser(UserService userService) {
         return (args) -> {
             log.info("##userService.updateUser test##");
@@ -228,6 +284,18 @@ public class Application {
             User u = userService.addUser(user);
             u.setUserName("hdq001");
             userService.updateUser(u);
+        };
+    }
+
+//	@Bean
+    public CommandLineRunner orderServiceUpdateOrder(OrderService orderService) {
+        return (args) -> {
+            log.info("##orderService.updateOrder test##");
+            log.info("--------------------------------------------");
+            Order order = new Order("order", new Date(), Order.STATE_FINISHED, 2, 1);
+            Order u = orderService.addOrder(order);
+            u.setCopies(5);
+            orderService.updateOrder(u);
         };
     }
 
@@ -242,6 +310,35 @@ public class Application {
             pageUser.map((User u) -> {
                 log.info(u.toString());
                 return user.getUserName();
+            });
+        };
+    }
+
+//	@Bean
+    public CommandLineRunner operLogServiceQueryOperLogs(OperLogService operLogService) {
+        return (args) -> {
+            log.info("##operLogService.queryOperLogs test##");
+            log.info("--------------------------------------------");
+            operLogService.success(Category.USER, "user add success");
+            Page<OperLog> pageOperLog = operLogService.queryOperLogs(0);
+            pageOperLog.map((OperLog u) -> {
+                log.info(u.toString());
+                return u;
+            });
+        };
+    }
+
+//	@Bean
+    public CommandLineRunner orderServiceQueryOrders(OrderService orderService) {
+        return (args) -> {
+            log.info("##orderService.queryOrders test##");
+            log.info("--------------------------------------------");
+            Order order = new Order("order", new Date(), Order.STATE_FINISHED, 2, 1);
+            orderService.addOrder(order);
+            Page<Order> pageOrder = orderService.queryOrders(0);
+            pageOrder.map((Order u) -> {
+                log.info(u.toString());
+                return u;
             });
         };
     }
