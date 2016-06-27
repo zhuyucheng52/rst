@@ -1,7 +1,9 @@
 package com.echo.rst.user;
 
 import com.echo.rst.entity.AppException;
+import com.echo.rst.entity.Category;
 import com.echo.rst.entity.Result;
+import com.echo.rst.operlog.OperLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +25,27 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private OperLogService operLogService;
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Result<User> login(@RequestParam User user) {
 		Objects.requireNonNull(user);
 		Result<User> result = new Result<User>("login success");
 		log.info("user loginName={} login", user.getLoginName());
-
+		String contentFailure = "user " + user.getLoginName() + " login failure";
 		try {
-			userService.login(user);
+			User u = userService.login(user);
+			String contentSuccess = "user " + user.getLoginName() + " login success";
+			operLogService.success(Category.USER, contentSuccess);
+			result.setData(u);
 			return result;
 		} catch (AppException e) {
 			log.warn("user loginName={} login failure", user.getLoginName(), e);
+			operLogService.failure(Category.USER, contentFailure, e.getMessage());
 		} catch (Exception e) {
 			log.warn("user loginName={} login failure", user.getLoginName(), e);
+			operLogService.failure(Category.USER, contentFailure, null);
 		}
 
 		result.setMsg("login failure");
