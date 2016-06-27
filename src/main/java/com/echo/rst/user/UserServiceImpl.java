@@ -67,9 +67,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<User> queryUsers(int page) {
 		log.debug("query users by page={}", page);
 		Pageable pageable = new PageRequest(page, Result.PAGE_SIZE);
 		return userRepository.findAll(pageable);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public User login(User user) {
+		Objects.requireNonNull(user);
+		String loginName = user.getLoginName();
+		String password = user.getPassword();
+		User userPo = userRepository.findByLoginName(loginName);
+		if (userPo != null) {
+			log.warn("user loginName={} is not exists", loginName);
+			throw new AppException(ErrorCodes.USER_NOT_EXISTS);
+		}
+
+		if (password == null || !password.equals(userPo.getPassword())) {
+			log.warn("user loginName={} password is incorrect");
+			throw new AppException(ErrorCodes.USER_PASSWORD_INCORRECT);
+		}
+
+		return userPo;
 	}
 }

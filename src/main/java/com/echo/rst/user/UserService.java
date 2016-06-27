@@ -10,4 +10,5 @@ public interface UserService {
 	User deleteUser(Long id);
 	User updateUser(User user);
 	Page<User> queryUsers(int page);
+	User login(User user);
 }
