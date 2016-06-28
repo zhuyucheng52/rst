@@ -32,7 +32,7 @@ public class Order extends CommonEntity implements Serializable {
     /** 备注 */
     private String comment;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "menu_id")
     private Menu menu;
 

@@ -7,11 +7,11 @@ import com.echo.rst.operlog.OperLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -49,6 +49,36 @@ public class UserController {
 		}
 
 		result.setMsg("login failure");
+		result.setState(Result.State.FAILURE);
+		return result;
+	}
+
+	@RequestMapping(value = "/list/{page}", method = RequestMethod.GET)
+	public Result<List<User>> querys(@PathVariable Integer page) {
+		Objects.requireNonNull(page);
+		log.debug("query user page={}", page);
+		Result<List<User>> result = new Result<List<User>>("query success");
+		String contentFailure = "query user failure";
+		List<User> userList = new ArrayList<>();
+		try {
+			Page<User> users = userService.queryUsers(page);
+			users.map((u) -> {
+				userList.add(u);
+				return u;
+			});
+			log.debug("total items=" + users.getTotalElements());
+			log.debug("total pages=" + users.getTotalPages());
+			result.setData(userList);
+			return result;
+		} catch (AppException e) {
+			log.warn("query user page={} failure", page, e);
+			operLogService.failure(Category.USER, contentFailure, e.getMessage());
+		} catch (Exception e) {
+			log.warn("query user page={} failure", page, e);
+			operLogService.failure(Category.USER, contentFailure, null);
+		}
+
+		result.setMsg(contentFailure);
 		result.setState(Result.State.FAILURE);
 		return result;
 	}

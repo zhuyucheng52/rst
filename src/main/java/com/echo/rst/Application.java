@@ -253,7 +253,7 @@ public class Application {
         };
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner menuServiceDeleteMenu(MenuService menuService) {
         return (args) -> {
             log.info("##menuService.deleteMenu test##");

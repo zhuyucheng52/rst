@@ -2,8 +2,10 @@ package com.echo.rst.menu;
 
 import com.echo.rst.entity.CommonEntity;
 import com.echo.rst.order.Order;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -15,6 +17,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "tbl_menu")
+@JsonIgnoreProperties(value={"orders"})
 public class Menu extends CommonEntity implements Serializable {
 
     private static final long serialVersionUID = -613794406409968601L;
