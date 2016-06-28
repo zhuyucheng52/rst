@@ -3,6 +3,8 @@ package com.echo.rst.order;
 import com.echo.rst.entity.AppException;
 import com.echo.rst.entity.ErrorCodes;
 import com.echo.rst.entity.Result;
+import com.echo.rst.menu.Menu;
+import com.echo.rst.menu.MenuRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,29 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private OrderRepository orderRepository;
 
+	@Autowired
+	private MenuRepository menuRepository;
+
 	@Override
 	@Transactional
 	public Order addOrder(Order order) {
 		Objects.requireNonNull(order);
-		log.info("add order gTime={}, state={}, copies={}, num={}",
-				order.getgTime(), order.getState(), order.getCopies(), order.getNum());
+		Objects.requireNonNull(order.getMenu());
+		log.info("add order gTime={}, state={}, copies={}, num={}, menu_id",
+				order.getgTime(), order.getState(), order.getCopies(),
+				order.getNum(), order.getMenu().getId());
+		Long id = order.getMenu().getId();
+		if (id == null) {
+			log.warn("menu_id is null");
+			throw new AppException(ErrorCodes.MENU_ORDER_NOT_EXIITS);
+		}
+
+		Menu menu = menuRepository.findOne(id);
+		if (menu == null) {
+			log.warn("menu id={} is not exists", id);
+			throw new AppException(ErrorCodes.MENU_ORDER_NOT_EXIITS);
+		}
+
 		return orderRepository.save(order);
 	}
 

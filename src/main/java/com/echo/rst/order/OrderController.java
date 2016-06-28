@@ -28,6 +28,30 @@ public class OrderController {
 	@Autowired
 	private OperLogService operLogService;
 
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public Result<Order> add(@RequestParam Order order) {
+		Objects.requireNonNull(order);
+		Objects.requireNonNull(order.getMenu());
+		log.info("add order gTime={}, comment={}, copies={}, menuId={}",
+				order.getgTime(), order.getComment(), order.getCopies(), order.getMenu().getId());
+		Result<Order> result = new Result<Order>("add success");
+		String contentFailure = "add order comment " + order.getComment() + " failure";
+		try {
+			Order o = orderService.addOrder(order);
+			result.setData(o);
+			return result;
+		} catch (AppException e) {
+			log.warn("add order={} failure", order, e);
+			operLogService.failure(Category.ORDER, contentFailure, e.getMessage());
+		} catch (Exception e) {
+			log.warn("add order={} failure", order, e);
+			operLogService.failure(Category.ORDER, contentFailure, null);
+		}
+
+		result.setMsg("add order failure");
+		return result;
+	}
+
 	@RequestMapping(value = "/list/{page}", method = RequestMethod.GET)
 	public Result<List<Order>> querys(@PathVariable Integer page) {
 		Objects.requireNonNull(page);
@@ -41,8 +65,6 @@ public class OrderController {
 				orderList.add(u);
 				return u;
 			});
-			log.debug("total items=" + orders.getTotalElements());
-			log.debug("total pages=" + orders.getTotalPages());
 			result.setData(orderList);
 			return result;
 		} catch (AppException e) {

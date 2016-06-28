@@ -66,8 +66,6 @@ public class UserController {
 				userList.add(u);
 				return u;
 			});
-			log.debug("total items=" + users.getTotalElements());
-			log.debug("total pages=" + users.getTotalPages());
 			result.setData(userList);
 			return result;
 		} catch (AppException e) {

@@ -16,4 +16,5 @@ public class ErrorCodes {
 
 	/** 菜单相关错误 */
 	public static final int MENU_NOT_EXISTS         = 4_000_000;
+	public static final int MENU_ORDER_NOT_EXIITS   = 4_000_001;
 }

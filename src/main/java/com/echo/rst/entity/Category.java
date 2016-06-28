@@ -9,4 +9,7 @@ public class Category {
 
 	/** 菜单操作 */
 	public static final Integer MENU        = 2_000_000;
+
+	/** 订单操作 */
+	public static final Integer ORDER       = 3_000_000;
 }

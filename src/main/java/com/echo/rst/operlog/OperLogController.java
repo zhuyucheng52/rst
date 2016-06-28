@@ -37,8 +37,6 @@ public class OperLogController {
 				operLogList.add(u);
 				return u;
 			});
-			log.debug("total items=" + operLogs.getTotalElements());
-			log.debug("total pages=" + operLogs.getTotalPages());
 			result.setData(operLogList);
 			return result;
 		} catch (AppException e) {
