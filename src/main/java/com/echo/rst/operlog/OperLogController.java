@@ -25,7 +25,7 @@ public class OperLogController {
 	private OperLogService operLogService;
 
 	@RequestMapping(value = "/list/{page}", method = RequestMethod.GET)
-	public Result<List<OperLog>> querys(@PathVariable Integer page) {
+	public Result<List<OperLog>> queryByPage(@PathVariable Integer page) {
 		Objects.requireNonNull(page);
 		log.debug("query operLog page={}", page);
 		Result<List<OperLog>> result = new Result<List<OperLog>>("query success");
@@ -33,10 +33,7 @@ public class OperLogController {
 		List<OperLog> operLogList = new ArrayList<>();
 		try {
 			Page<OperLog> operLogs = operLogService.queryOperLogs(page);
-			operLogs.map((u) -> {
-				operLogList.add(u);
-				return u;
-			});
+			operLogList = operLogs.getContent();
 			result.setData(operLogList);
 			return result;
 		} catch (AppException e) {

@@ -7,8 +7,11 @@ import com.echo.rst.operlog.OperLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,6 +27,54 @@ public class MenuController {
 
 	@Autowired
 	private OperLogService operLogService;
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public Result<Menu> queryById(@PathVariable Long id) {
+		Objects.requireNonNull(id);
+		log.debug("query menu id={}", id);
+		Result<Menu> result = new Result<Menu>("query success");
+		String contentFailure = "query menu failure";
+		try {
+			Menu menu = menuService.queryById(id);
+			result.setData(menu);
+			return result;
+		} catch (AppException e) {
+			log.warn("query menu id={} failure", id, e);
+			operLogService.failure(Category.MENU, contentFailure, e.getMessage());
+		} catch (Exception e) {
+			log.warn("query menu id={} failure", id, e);
+			operLogService.failure(Category.MENU, contentFailure, null);
+		}
+
+		result.setMsg(contentFailure);
+		result.setState(Result.State.FAILURE);
+		return result;
+	}
+
+	@RequestMapping(value = "/list/{page}", method = RequestMethod.GET)
+	public Result<List<Menu>> queryByPage(@PathVariable Integer page) {
+		Objects.requireNonNull(page);
+		log.debug("query menu page={}", page);
+		Result<List<Menu>> result = new Result<List<Menu>>("query success");
+		String contentFailure = "query menu failure";
+		List<Menu> menuList = new ArrayList<>();
+		try {
+			Page<Menu> menus = menuService.queryMenus(page);
+			menuList = menus.getContent();
+			result.setData(menuList);
+			return result;
+		} catch (AppException e) {
+			log.warn("query menu page={} failure", page, e);
+			operLogService.failure(Category.USER, contentFailure, e.getMessage());
+		} catch (Exception e) {
+			log.warn("query menu page={} failure", page, e);
+			operLogService.failure(Category.USER, contentFailure, null);
+		}
+
+		result.setMsg(contentFailure);
+		result.setState(Result.State.FAILURE);
+		return result;
+	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Result<Menu> addMenu(@RequestBody Menu menu) {

@@ -11,9 +11,20 @@ public class Result<T> implements Serializable {
     public static final int PAGE_SIZE = 20;
 
     public static enum State {
-        SUCCESS,        // 成功
-        FAILURE,        // 失败
-        SUCCESS_PART    // 部分成功
+        SUCCESS(0),        // 成功
+        FAILURE(1),        // 失败
+        SUCCESS_PART(2);    // 部分成功
+
+        private int value;
+
+        State(int value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 
 

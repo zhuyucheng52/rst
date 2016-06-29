@@ -70,4 +70,10 @@ public class MenuServiceImpl implements MenuService {
 		Pageable pageable = new PageRequest(page, Result.PAGE_SIZE);
 		return menuRepository.findAll(pageable);
 	}
+
+	@Override
+	public Menu queryById(Long id) {
+		log.debug("query menu by id={}", id);
+		return menuRepository.findOne(id);
+	}
 }

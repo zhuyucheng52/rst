@@ -53,7 +53,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/list/{page}", method = RequestMethod.GET)
-	public Result<List<Order>> querys(@PathVariable Integer page) {
+	public Result<List<Order>> queryByPage(@PathVariable Integer page) {
 		Objects.requireNonNull(page);
 		log.debug("query order page={}", page);
 		Result<List<Order>> result = new Result<List<Order>>("query success");
@@ -61,10 +61,7 @@ public class OrderController {
 		List<Order> orderList = new ArrayList<>();
 		try {
 			Page<Order> orders = orderService.queryOrders(page);
-			orders.map((u) -> {
-				orderList.add(u);
-				return u;
-			});
+			orderList = orders.getContent();
 			result.setData(orderList);
 			return result;
 		} catch (AppException e) {

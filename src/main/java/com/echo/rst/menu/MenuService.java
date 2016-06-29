@@ -10,4 +10,5 @@ public interface MenuService {
 	Menu deleteMenu(Long id);
 	Menu updateMenu(Menu menu);
 	Page<Menu> queryMenus(int page);
+	Menu queryById(Long id);
 }

@@ -54,7 +54,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/list/{page}", method = RequestMethod.GET)
-	public Result<List<User>> querys(@PathVariable Integer page) {
+	public Result<List<User>> queryByPage(@PathVariable Integer page) {
 		Objects.requireNonNull(page);
 		log.debug("query user page={}", page);
 		Result<List<User>> result = new Result<List<User>>("query success");
@@ -62,10 +62,7 @@ public class UserController {
 		List<User> userList = new ArrayList<>();
 		try {
 			Page<User> users = userService.queryUsers(page);
-			users.map((u) -> {
-				userList.add(u);
-				return u;
-			});
+			userList = users.getContent();
 			result.setData(userList);
 			return result;
 		} catch (AppException e) {
