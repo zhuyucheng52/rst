@@ -36,6 +36,7 @@ create table tbl_order(
 
 create table tbl_oper_log(
 	id int auto_increment not null,
+	category int not null comment '类别',
 	g_time datetime not null comment '日志生成时间',
 	user_id int not null comment '当前操作用户',
 	state int not null comment '日志状态：0.未知；1.成功；2.失败',
