@@ -29,20 +29,20 @@ public class MenuController {
 	private OperLogService operLogService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Result<Menu> queryById(@PathVariable Long id) {
+	public Result<Menu> findById(@PathVariable Long id) {
 		Objects.requireNonNull(id);
-		log.debug("query menu id={}", id);
-		Result<Menu> result = new Result<Menu>("query success");
-		String contentFailure = "query menu failure";
+		log.debug("find menu id={}", id);
+		Result<Menu> result = new Result<Menu>("find success");
+		String contentFailure = "find menu failure";
 		try {
-			Menu menu = menuService.queryById(id);
+			Menu menu = menuService.findById(id);
 			result.setData(menu);
 			return result;
 		} catch (AppException e) {
-			log.warn("query menu id={} failure", id, e);
+			log.warn("find menu id={} failure", id, e);
 			operLogService.failure(Category.MENU, contentFailure, e.getMessage());
 		} catch (Exception e) {
-			log.warn("query menu id={} failure", id, e);
+			log.warn("find menu id={} failure", id, e);
 			operLogService.failure(Category.MENU, contentFailure, null);
 		}
 
@@ -52,22 +52,22 @@ public class MenuController {
 	}
 
 	@RequestMapping(value = "/list/{page}", method = RequestMethod.GET)
-	public Result<List<Menu>> queryByPage(@PathVariable Integer page) {
+	public Result<List<Menu>> findByPage(@PathVariable Integer page) {
 		Objects.requireNonNull(page);
-		log.debug("query menu page={}", page);
-		Result<List<Menu>> result = new Result<List<Menu>>("query success");
-		String contentFailure = "query menu failure";
+		log.debug("find menu page={}", page);
+		Result<List<Menu>> result = new Result<List<Menu>>("find success");
+		String contentFailure = "find menu failure";
 		List<Menu> menuList = new ArrayList<>();
 		try {
-			Page<Menu> menus = menuService.queryMenus(page);
+			Page<Menu> menus = menuService.findMenus(page);
 			menuList = menus.getContent();
 			result.setData(menuList);
 			return result;
 		} catch (AppException e) {
-			log.warn("query menu page={} failure", page, e);
+			log.warn("find menu page={} failure", page, e);
 			operLogService.failure(Category.USER, contentFailure, e.getMessage());
 		} catch (Exception e) {
-			log.warn("query menu page={} failure", page, e);
+			log.warn("find menu page={} failure", page, e);
 			operLogService.failure(Category.USER, contentFailure, null);
 		}
 

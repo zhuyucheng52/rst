@@ -65,14 +65,14 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public Page<Menu> queryMenus(int page) {
+	public Page<Menu> findMenus(int page) {
 		log.debug("query menus by page={}", page);
 		Pageable pageable = new PageRequest(page, Result.PAGE_SIZE);
 		return menuRepository.findAll(pageable);
 	}
 
 	@Override
-	public Menu queryById(Long id) {
+	public Menu findById(Long id) {
 		log.debug("query menu by id={}", id);
 		return menuRepository.findOne(id);
 	}
