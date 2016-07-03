@@ -23,6 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -60,10 +63,13 @@ public class UserControllerTest {
 	@Test
 	public void testLogin() throws Exception {
 		User u = addUser();
+		String json = "{user: {loginName: 'zyc', password: 'zyc'}}";
 		this.mockMvc.perform(post("/user/login")
-//				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("logingName", "zyc")
-				.param("password", "zyc"))
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("loginName", u.getLoginName())
+				.param("password", u.getPassword())
+				.sessionAttr("user", new User()))
+				.andDo(print())
 				.andExpect(status().isOk());
 
 		logger.debug("loginname={} login success", u.getLoginName());
