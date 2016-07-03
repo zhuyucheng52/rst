@@ -5,39 +5,26 @@ package com.echo.rst.user;
  */
 
 import com.echo.rst.Application;
-import org.junit.Before;
+import com.echo.rst.entity.Result;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(Application.class)
-@WebIntegrationTest({"server.port=0", "management.port=0"})
+//@WebIntegrationTest({"server.port=0", "management.port=0"})
 @Transactional
 public class UserControllerTest {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-
-	private MockMvc mockMvc;
-	private MockHttpServletRequest request;
-	private MockHttpServletResponse response;
 
 	@Autowired
 	private UserController userController;
@@ -45,33 +32,20 @@ public class UserControllerTest {
 	@Autowired
 	private UserService userService;
 
-	@Before
-	public void before() {
-		this.mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-		this.request = new MockHttpServletRequest();
-		this.response = new MockHttpServletResponse();
-	}
-
 	@Test
+	@Rollback
 	public void testFindByPage() throws Exception {
-		long page = 0;
-		this.mockMvc.perform(get("/user/list/" + page))
-				.andExpect(status().isOk());
+		Result<List<User>> page = userController.findByPage(0);
+		Assert.assertEquals(Result.State.SUCCESS, page.getState());
 		logger.debug("find user by page success");
 	}
 
 	@Test
+	@Rollback
 	public void testLogin() throws Exception {
 		User u = addUser();
-		String json = "{user: {loginName: 'zyc', password: 'zyc'}}";
-		this.mockMvc.perform(post("/user/login")
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("loginName", u.getLoginName())
-				.param("password", u.getPassword())
-				.sessionAttr("user", new User()))
-				.andDo(print())
-				.andExpect(status().isOk());
-
+		Result<User> page = userController.login(u);
+		Assert.assertEquals(Result.State.SUCCESS, page.getState());
 		logger.debug("loginname={} login success", u.getLoginName());
 	}
 

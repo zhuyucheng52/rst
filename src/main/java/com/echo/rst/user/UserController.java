@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +19,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping("/user")
-@SessionAttributes("user")
+//@SessionAttributes("user")
 public class UserController {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -31,7 +30,7 @@ public class UserController {
 	private OperLogService operLogService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Result<User> login(@Valid @ModelAttribute User user) {
+	public Result<User> login(@RequestParam User user) {
 		Objects.requireNonNull(user);
 		Result<User> result = new Result<User>("login success");
 		log.info("user loginName={} login", user.getLoginName());
