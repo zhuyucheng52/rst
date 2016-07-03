@@ -9,5 +9,5 @@ public interface OrderService {
 	Order addOrder(Order order);
 	Order deleteOrder(Long id);
 	Order updateOrder(Order order);
-	Page<Order> queryOrders(int page);
+	Page<Order> findOrders(int page);
 }

@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Page<Order> queryOrders(int page) {
+	public Page<Order> findOrders(int page) {
 		log.debug("query orders by page={}", page);
 		Pageable pageable = new PageRequest(page, Result.PAGE_SIZE);
 		return orderRepository.findAll(pageable);

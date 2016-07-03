@@ -29,7 +29,7 @@ public class OrderController {
 	private OperLogService operLogService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public Result<Order> add(@RequestParam Order order) {
+	public Result<Order> addOrder(@RequestParam Order order) {
 		Objects.requireNonNull(order);
 		Objects.requireNonNull(order.getMenu());
 		log.info("add order gTime={}, comment={}, copies={}, menuId={}",
@@ -53,22 +53,22 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/list/{page}", method = RequestMethod.GET)
-	public Result<List<Order>> queryByPage(@PathVariable Integer page) {
+	public Result<List<Order>> findByPage(@PathVariable Integer page) {
 		Objects.requireNonNull(page);
-		log.debug("query order page={}", page);
-		Result<List<Order>> result = new Result<List<Order>>("query success");
-		String contentFailure = "query order failure";
+		log.debug("find order page={}", page);
+		Result<List<Order>> result = new Result<List<Order>>("find success");
+		String contentFailure = "find order failure";
 		List<Order> orderList = new ArrayList<>();
 		try {
-			Page<Order> orders = orderService.queryOrders(page);
+			Page<Order> orders = orderService.findOrders(page);
 			orderList = orders.getContent();
 			result.setData(orderList);
 			return result;
 		} catch (AppException e) {
-			log.warn("query order page={} failure", page, e);
+			log.warn("find order page={} failure", page, e);
 			operLogService.failure(Category.USER, contentFailure, e.getMessage());
 		} catch (Exception e) {
-			log.warn("query order page={} failure", page, e);
+			log.warn("find order page={} failure", page, e);
 			operLogService.failure(Category.USER, contentFailure, null);
 		}
 
