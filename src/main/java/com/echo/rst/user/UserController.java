@@ -54,11 +54,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/list/{page}", method = RequestMethod.GET)
-	public Result<List<User>> queryByPage(@PathVariable Integer page) {
+	public Result<List<User>> findByPage(@PathVariable Integer page) {
 		Objects.requireNonNull(page);
-		log.debug("query user page={}", page);
-		Result<List<User>> result = new Result<List<User>>("query success");
-		String contentFailure = "query user failure";
+		log.debug("find user page={}", page);
+		Result<List<User>> result = new Result<List<User>>("find success");
+		String contentFailure = "find user failure";
 		List<User> userList = new ArrayList<>();
 		try {
 			Page<User> users = userService.findUsers(page);
@@ -66,10 +66,10 @@ public class UserController {
 			result.setData(userList);
 			return result;
 		} catch (AppException e) {
-			log.warn("query user page={} failure", page, e);
+			log.warn("find user page={} failure", page, e);
 			operLogService.failure(Category.USER, contentFailure, e.getMessage());
 		} catch (Exception e) {
-			log.warn("query user page={} failure", page, e);
+			log.warn("find user page={} failure", page, e);
 			operLogService.failure(Category.USER, contentFailure, null);
 		}
 

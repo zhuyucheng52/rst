@@ -20,7 +20,6 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(Application.class)
-@WebIntegrationTest({"server.port=0", "management.port=0"})
 @Transactional
 public class UserRepositoryTest {
 	private Logger logger = LoggerFactory.getLogger(getClass());
