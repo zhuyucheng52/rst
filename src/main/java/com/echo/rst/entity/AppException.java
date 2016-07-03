@@ -17,6 +17,6 @@ public class AppException extends RuntimeException {
 
 	@Override
 	public String getMessage() {
-		return super.getMessage();
+		return (errorCode == null ? errorMsg: errorCode) + " " +super.getMessage();
 	}
 }

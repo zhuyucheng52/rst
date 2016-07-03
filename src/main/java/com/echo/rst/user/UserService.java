@@ -9,6 +9,6 @@ public interface UserService {
 	User addUser(User user);
 	User deleteUser(Long id);
 	User updateUser(User user);
-	Page<User> queryUsers(int page);
+	Page<User> findUsers(int page);
 	User login(User user);
 }

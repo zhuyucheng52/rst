@@ -61,7 +61,7 @@ public class UserController {
 		String contentFailure = "query user failure";
 		List<User> userList = new ArrayList<>();
 		try {
-			Page<User> users = userService.queryUsers(page);
+			Page<User> users = userService.findUsers(page);
 			userList = users.getContent();
 			result.setData(userList);
 			return result;

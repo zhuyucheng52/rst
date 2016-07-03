@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;
@@ -302,11 +301,11 @@ public class Application {
 //    @Bean
     public CommandLineRunner userServiceQueryUsers(UserService userService) {
         return (args) -> {
-            log.info("##userService.queryUsers test##");
+            log.info("##userService.findUsers test##");
             log.info("--------------------------------------------");
             User user = new User("zyc001", "zyc_login001", "abcd", "admin");
             userService.addUser(user);
-            Page<User> pageUser = userService.queryUsers(0);
+            Page<User> pageUser = userService.findUsers(0);
             pageUser.map((User u) -> {
                 log.info(u.toString());
                 return user.getUserName();
