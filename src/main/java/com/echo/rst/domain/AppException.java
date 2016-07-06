@@ -7,6 +7,8 @@ public class AppException extends RuntimeException {
 	private Integer errorCode;
 	private String errorMsg;
 
+	private final static ErrorCodesResolver resolver = new ErrorCodesResolver();
+
 	public AppException(Integer errorCode) {
 		this.errorCode = errorCode;
 	}
@@ -17,6 +19,10 @@ public class AppException extends RuntimeException {
 
 	@Override
 	public String getMessage() {
-		return (errorCode == null ? errorMsg: errorCode) + " " +super.getMessage();
+		if (errorMsg != null) {
+			return errorMsg;
+		} else {
+			return resolver.getValue(this.errorCode + "");
+		}
 	}
 }
