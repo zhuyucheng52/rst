@@ -1,8 +1,8 @@
 package com.echo.rst.operlog;
 
-import com.echo.rst.entity.AppException;
-import com.echo.rst.entity.Category;
-import com.echo.rst.entity.Result;
+import com.echo.rst.domain.AppException;
+import com.echo.rst.domain.Category;
+import com.echo.rst.domain.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

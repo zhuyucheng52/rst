@@ -1,6 +1,6 @@
 package com.echo.rst.order;
 
-import com.echo.rst.entity.CommonEntity;
+import com.echo.rst.domain.CommonEntity;
 import com.echo.rst.menu.Menu;
 
 import javax.persistence.*;

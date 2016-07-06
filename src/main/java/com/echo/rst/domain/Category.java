@@ -1,4 +1,4 @@
-package com.echo.rst.entity;
+package com.echo.rst.domain;
 
 /**
  * Created by echo on 16-6-27.

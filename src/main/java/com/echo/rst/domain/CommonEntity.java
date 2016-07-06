@@ -1,4 +1,4 @@
-package com.echo.rst.entity;
+package com.echo.rst.domain;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

@@ -5,7 +5,7 @@ package com.echo.rst.order;
  */
 
 import com.echo.rst.Application;
-import com.echo.rst.entity.Result;
+import com.echo.rst.domain.Result;
 import com.echo.rst.menu.Menu;
 import com.echo.rst.menu.MenuService;
 import org.junit.Assert;

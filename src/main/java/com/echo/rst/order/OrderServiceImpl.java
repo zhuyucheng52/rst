@@ -1,8 +1,8 @@
 package com.echo.rst.order;
 
-import com.echo.rst.entity.AppException;
-import com.echo.rst.entity.ErrorCodes;
-import com.echo.rst.entity.Result;
+import com.echo.rst.domain.AppException;
+import com.echo.rst.domain.ErrorCodes;
+import com.echo.rst.domain.Result;
 import com.echo.rst.menu.Menu;
 import com.echo.rst.menu.MenuRepository;
 import org.slf4j.Logger;

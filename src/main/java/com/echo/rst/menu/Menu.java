@@ -1,11 +1,10 @@
 package com.echo.rst.menu;
 
-import com.echo.rst.entity.CommonEntity;
+import com.echo.rst.domain.CommonEntity;
 import com.echo.rst.order.Order;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;

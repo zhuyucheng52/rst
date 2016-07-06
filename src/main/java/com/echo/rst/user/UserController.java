@@ -1,8 +1,8 @@
 package com.echo.rst.user;
 
-import com.echo.rst.entity.AppException;
-import com.echo.rst.entity.Category;
-import com.echo.rst.entity.Result;
+import com.echo.rst.domain.AppException;
+import com.echo.rst.domain.Category;
+import com.echo.rst.domain.Result;
 import com.echo.rst.operlog.OperLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

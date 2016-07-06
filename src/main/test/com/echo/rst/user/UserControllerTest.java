@@ -5,7 +5,7 @@ package com.echo.rst.user;
  */
 
 import com.echo.rst.Application;
-import com.echo.rst.entity.Result;
+import com.echo.rst.domain.Result;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

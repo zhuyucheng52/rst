@@ -1,6 +1,6 @@
 package com.echo.rst.operlog;
 
-import com.echo.rst.entity.CommonEntity;
+import com.echo.rst.domain.CommonEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
