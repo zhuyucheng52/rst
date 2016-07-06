@@ -20,7 +20,7 @@ public class ErrorCodesResolver {
 
 
 	public ErrorCodesResolver() {
-		String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+		String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() ;
 		String fileWithPath = path + fileName;
 		FileInputStream fis = null;
 		try {
@@ -28,9 +28,7 @@ public class ErrorCodesResolver {
 			File file = new File(fileWithPath);
 			fis = new FileInputStream(file);
 			properties.load(fis);
-		} catch (FileNotFoundException e) {
-			logger.warn("load file {} failure", fileWithPath, e);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.warn("load file {} failure", fileWithPath, e);
 		} finally {
 			try {
