@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -18,7 +19,11 @@ public class ErrorCodesResolver {
 
 
 	public ErrorCodesResolver() {
-		String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() ;
+		String path = this.getClass()
+				.getProtectionDomain()
+				.getCodeSource()
+				.getLocation()
+				.getPath() ;
 		String fileWithPath = path + fileName;
 		FileInputStream fis = null;
 		try {
@@ -32,7 +37,6 @@ public class ErrorCodesResolver {
 			try {
 				if (fis != null) {
 					fis.close();
-					fis = null;
 				}
 			} catch (Exception e) {
 				logger.warn("close file input stream to file={} failure", fileWithPath, e);
@@ -41,6 +45,7 @@ public class ErrorCodesResolver {
 	}
 
 	public String getValue(String key) {
+		Objects.requireNonNull(key);
 		return (String) properties.get(key);
 	}
 }
